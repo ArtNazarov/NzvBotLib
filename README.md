@@ -18,6 +18,35 @@ $mr->addAction('/start', function(){
 
 $mr->process($mr->getMessageText());
 ```
+# Quick commands using plugins
+
+```
+<?php
+include (__DIR__ . '/vendor/autoload.php');
+include (__DIR__ . '/NzvBotLib.php');
+include (__DIR__ . '/NzvResponses.php');
+include (__DIR__ . '/NzvPlugins.php');
+$telegram = new Telegram('SET_TOKEN');
+
+$plugins = \Nazarov\pluginCommands(__DIR__ . '/resp', ['help', 'start']);
+...
+
+foreach ($plugins as $command  => $resp){
+    $mr->addAction("/$command", function() use ( $resp ) {
+        return $resp;
+    });
+}
+$mr->addAction('/help', function() use ( $plugins ) {
+    $keys = array_keys($plugins);   
+    $prefixed = array_map(fn($k) => '/' . $k, $keys);
+    $list = implode(' , ', $prefixed);
+    $also = "";
+    if (count($keys)>0) { $also = "\n\n Also can use: $list"; };
+   return "Help about bot. " . $also ;
+});
+
+```
+Place files named as ```commandname.txt``` to ```/resp``` directory
 
 # Installation
 
