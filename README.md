@@ -70,3 +70,49 @@ If need other libraries run
 ```
 composer require vendor/package
 ```
+
+# Testing
+
+Create in the directory ```tests``` file ```AppTest.php```
+
+with code by example 
+```
+<?php
+
+include (__DIR__ . '/../vendor/autoload.php');
+include (__DIR__ . '/../NzvBotLib.php');
+...
+use PHPUnit\Framework\TestCase; 
+class AppTest extends TestCase
+{
+    private $telegram;
+    private $mr;
+
+
+    protected function setUp(): void {
+        $this->telegram = new Telegram('SET_TOKEN');
+        $this->mr = new Nazarov\MessagesRouting($this->telegram);
+        
+    }
+    
+      public function testStartResponse(): void
+    {
+            $this->mr->addAction('/start', function(){
+                return "test response";
+            });
+
+        $this->assertEquals(
+            "test response",
+            $this->mr->process('/start')
+        );
+    }
+...
+
+}
+```
+
+
+In the terminal open project folder and run
+```
+ ./vendor/bin/phpunit --testdox tests
+```
