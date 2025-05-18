@@ -18,3 +18,26 @@ $mr->addAction('/start', function(){
 
 $mr->process($mr->getMessageText());
 ```
+
+# Installation
+
+Install composer
+
+```
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+```
+
+Install dependencies
+
+In project folder:
+
+```
+composer install
+```
+
+If need other libraries run
+
+```
+composer require vendor/package
+```
