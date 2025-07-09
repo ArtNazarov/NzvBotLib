@@ -7,11 +7,22 @@ Usage
 <?php
 include (__DIR__ . '/vendor/autoload.php');
 include (__DIR__ . '/NzvBotLib.php');
+include (__DIR__ . '/ChatMessageWriter.php'); 
+
+// Create database writer
+$dbWriter = new Nazarov\ChatMessageWriter(
+    'localhost', // host
+    5432,        // port
+    'change_to_your_username',    // username
+    'change_to_your_password',    // password
+    'mysql',   // database type
+    'change_to_your_database' // database name
+);
+
  
 $telegram = new Telegram('CHANGE_TO_YOUR_BOT_TOKEN');
 
-$mr = new Nazarov\MessagesRouting($telegram);
-
+$mr = new Nazarov\MessagesRouting($telegram, $dbWriter);
 $mr->addAction('/start', function(){
    return "response to start command";
 });
